@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Weekly Ads Dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink:#1d1d1f; --muted:#86868b; --faint:#a1a1a6;
+    --line:#ececef; --bg:#fbfbfd; --panel:#ffffff; --hover:#f5f5f7;
+    --bad:#d23a31; --bad-bg:#fcefee; --good:#1a8f5c; --good-bg:#e9f6ef; --accent:#8a8a8e;
+  }
+  * { box-sizing:border-box; }
+  html,body { -webkit-font-smoothing:antialiased; }
+  body { margin:0; background:var(--bg); color:var(--ink);
+         font-family:"Inter",-apple-system,BlinkMacSystemFont,sans-serif; line-height:1.5;
+         letter-spacing:-0.01em; }
+
+  .wrap { max-width:960px; margin:0 auto; padding:56px 24px 64px; }
+  h1 { font-size:28px; font-weight:600; letter-spacing:-0.02em; margin:0 0 16px; }
+
+  /* Period toggle */
+  .toggle { display:flex; gap:6px; margin-bottom:28px; }
+  .toggle button { padding:7px 16px; border-radius:999px; border:1px solid var(--line);
+                   background:var(--panel); color:var(--muted); font-size:13px; font-weight:500;
+                   cursor:pointer; font-family:inherit; transition:all .15s ease; }
+  .toggle button:hover { border-color:var(--accent); color:var(--ink); }
+  .toggle button.active { background:var(--ink); border-color:var(--ink); color:#fff; }
+
+  .dates { color:var(--muted); font-size:13px; margin:-20px 0 24px; }
+  .period-panel { display:none; }
+  .period-panel.active { display:block; }
+
+  .panel { background:var(--panel); border:1px solid var(--line); border-radius:16px; overflow:hidden;
+           box-shadow:0 1px 2px rgba(0,0,0,.03); }
+  table { width:100%; border-collapse:collapse; font-size:15px; }
+  thead th { padding:14px 24px; border-bottom:1px solid var(--line); text-align:left;
+             font-size:11px; font-weight:600; text-transform:uppercase; letter-spacing:.04em; color:var(--faint); }
+  th.num, td.num { text-align:right; font-variant-numeric:tabular-nums; }
+
+  tr.row > td { padding:18px 24px; border-bottom:1px solid var(--line); cursor:pointer; }
+  tr.row:hover > td { background:var(--hover); }
+  tr.row:last-of-type > td, tbody tr.detail:last-child > td { border-bottom:none; }
+  .client { font-weight:600; font-size:16px; display:flex; align-items:center; gap:10px; }
+  .chev { color:var(--accent); font-size:10px; transition:transform .18s ease; }
+  .row.open .chev { transform:rotate(90deg); }
+  .delta-up { color:var(--good); } .delta-down { color:var(--bad); } .delta-flat { color:var(--faint); }
+  .delta-cost-up { color:var(--bad); } .delta-cost-down { color:var(--good); }
+
+  .pill { display:inline-flex; align-items:center; gap:7px; padding:5px 12px; border-radius:999px;
+          font-size:13px; font-weight:500; white-space:nowrap; }
+  .pill .dot { width:7px; height:7px; border-radius:50%; }
+  .pill.bad { background:var(--bad-bg); color:var(--bad); } .pill.bad .dot { background:var(--bad); }
+  .pill.good { background:var(--good-bg); color:var(--good); } .pill.good .dot { background:var(--good); }
+  .pill.ok { background:var(--hover); color:var(--muted); } .pill.ok .dot { background:var(--faint); }
+
+  tr.detail > td { padding:0; border-bottom:1px solid var(--line); background:#fcfcfd; }
+  tr.detail .inner { padding:8px 24px 28px; display:none; }
+  tr.detail.open .inner { display:block; }
+  .detail-grid { display:flex; gap:48px; flex-wrap:wrap; align-items:flex-start; margin:14px 0 18px; }
+
+  .dt { flex:1 1 440px; max-width:520px; border-collapse:collapse; }
+  .dt th, .dt td { padding:11px 0; border-bottom:1px solid var(--line); text-align:left; font-size:14px; }
+  .dt th { font-size:10px; font-weight:600; text-transform:uppercase; letter-spacing:.04em; color:var(--faint); }
+  .dt th.num, .dt td.num { text-align:right; }
+  .dt tr.tot td { font-weight:600; border-top:1.5px solid var(--ink); border-bottom:none; }
+
+  .bd { flex:0 1 240px; padding-top:6px; }
+  .bd .lab { font-size:10px; font-weight:600; text-transform:uppercase; letter-spacing:.04em; color:var(--faint); margin-bottom:12px; }
+  .bd-group { margin-bottom:16px; }
+  .bd-group:last-child { margin-bottom:0; }
+  .bd-plat { font-size:13px; font-weight:600; color:var(--ink); margin-bottom:5px; }
+  .bd-item { font-size:14px; color:var(--muted); margin-bottom:3px; }
+  .bd-item b { color:var(--ink); font-weight:600; font-variant-numeric:tabular-nums; margin-right:6px; }
+
+  .flag { border-radius:12px; padding:13px 16px; font-size:14px; font-weight:500; max-width:680px; line-height:1.45; }
+  .flag.attention { background:var(--bad-bg); color:var(--bad); }
+  .flag.scale { background:var(--good-bg); color:var(--good); }
+
+  /* Campaign / adset drill-down */
+  .cg { margin-top:20px; }
+  .cg-head { display:flex; align-items:center; padding:0 14px 6px; }
+  .cg-plat { flex:1; font-size:10px; font-weight:600; text-transform:uppercase; letter-spacing:.04em; color:var(--faint); }
+  .cg-col-heads { display:flex; gap:0; }
+  .cg-col-heads span { font-size:10px; font-weight:600; text-transform:uppercase; letter-spacing:.04em; color:var(--faint); text-align:right; }
+  .col-r { width:80px; }
+  .col-c { width:100px; }
+  .col-s { width:90px; }
+  .camp { border:1px solid var(--line); border-radius:10px; margin-bottom:6px; overflow:hidden; }
+  .camp-hd { display:flex; align-items:center; gap:10px; padding:11px 14px; cursor:pointer; background:var(--panel); font-size:14px; }
+  .camp-hd:hover { background:var(--hover); }
+  .camp-hd .chev2 { color:var(--accent); font-size:9px; transition:transform .15s ease; flex-shrink:0; }
+  .camp.open .chev2 { transform:rotate(90deg); }
+  .camp-name { flex:1; font-weight:500; }
+  .camp-nums { display:flex; font-variant-numeric:tabular-nums; font-size:13px; }
+  .camp-nums span { font-weight:600; text-align:right; }
+  .adsets { display:none; border-top:1px solid var(--line); }
+  .camp.open .adsets { display:block; }
+  .adset-row { display:flex; align-items:center; gap:10px; padding:9px 14px 9px 34px; border-bottom:1px solid var(--line); font-size:13px; }
+  .adset-row:last-child { border-bottom:none; }
+  .adset-name { flex:1; color:var(--muted); }
+  .adset-nums { display:flex; font-variant-numeric:tabular-nums; font-size:13px; }
+  .adset-nums span { text-align:right; color:var(--ink); }
+
+  .foot { color:var(--faint); font-size:12px; margin-top:20px; text-align:center; }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>Ads Dashboard</h1>
+
+    <div class="toggle">
+      {% for period in periods %}
+      <button onclick="setPeriod('{{ period.key }}')" {% if loop.first %}class="active"{% endif %}>{{ period.label }}</button>
+      {% endfor %}
+    </div>
+
+    {% for period in periods %}
+    <div id="period-{{ period.key }}" class="period-panel {% if loop.first %}active{% endif %}">
+      <p class="dates">{{ period.date_str }} · AUD</p>
+      <div class="panel">
+        <table>
+          <thead>
+            <tr>
+              <th>Client</th>
+              <th class="num">Results</th>
+              <th class="num">Cost / result</th>
+              <th class="num">Spend</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for c in period.clients %}
+            <tr class="row" onclick="toggle(this)">
+              <td><span class="client"><span class="chev">▶</span>{{ c.name }}</span></td>
+              <td class="num">{{ c.total_conversions|int }} <span class="{{ c.conv_delta_class }}">({{ c.conv_delta_str }})</span></td>
+              <td class="num">{{ c.total_cpc|aud }} <span class="{{ c.cpc_delta_class }}">({{ c.cpc_delta_str }})</span></td>
+              <td class="num">{{ c.total_spend|aud }}</td>
+              <td><span class="pill {{ c.status }}"><span class="dot"></span>{{ c.status_label }}</span></td>
+            </tr>
+            <tr class="detail">
+              <td colspan="5">
+                <div class="inner">
+                  {% if c.attention_note %}
+                  <div class="flag attention" style="margin-bottom:16px;">{{ c.attention_note }}</div>
+                  {% endif %}
+                  <div class="detail-grid">
+                    <table class="dt">
+                      <thead>
+                        <tr><th>Platform</th><th class="num">Results</th><th class="num">Cost/result</th><th class="num">Spend</th></tr>
+                      </thead>
+                      <tbody>
+                        {% for p in c.platforms %}
+                        <tr>
+                          <td>{{ p.name }}</td>
+                          <td class="num">{{ p.conversions|int }} <span class="{{ p.conv_delta_class }}">({{ p.conv_delta_str }})</span></td>
+                          <td class="num">{{ p.cost_per_conv|aud }} <span class="{{ p.cpc_delta_class }}">({{ p.cpc_delta_str }})</span></td>
+                          <td class="num">{{ p.spend|aud }}</td>
+                        </tr>
+                        {% endfor %}
+                        <tr class="tot">
+                          <td>Total</td>
+                          <td class="num">{{ c.total_conversions|int }}</td>
+                          <td class="num">{{ c.total_cpc|aud }}</td>
+                          <td class="num">{{ c.total_spend|aud }}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    <div class="bd">
+                      <div class="lab">Conversion breakdown</div>
+                      {% for group in c.breakdown %}
+                      <div class="bd-group">
+                        <div class="bd-plat">{{ group.platform }}</div>
+                        {% for item in group.entries %}
+                        <div class="bd-item"><b>{{ item.conversions|int }}</b>{{ item.name }}</div>
+                        {% endfor %}
+                      </div>
+                      {% endfor %}
+                    </div>
+                  </div>
+                  {% if c.flag %}
+                  <div class="flag {{ c.flag.type }}">{{ c.flag.text }}</div>
+                  {% endif %}
+                  {% if c.campaign_groups %}
+                  <div class="cg">
+                    {% for grp in c.campaign_groups %}
+                    <div class="cg-head">
+                      <span class="cg-plat">{{ grp.platform }} Campaigns</span>
+                      <div class="cg-col-heads">
+                        <span class="col-r">Results</span>
+                        <span class="col-c">Cost/result</span>
+                        <span class="col-s">Spend</span>
+                      </div>
+                    </div>
+                    {% for camp in grp.campaigns %}
+                    <div class="camp" onclick="toggleCamp(this)">
+                      <div class="camp-hd">
+                        <span class="chev2">▶</span>
+                        <span class="camp-name">{{ camp.name }}</span>
+                        <div class="camp-nums">
+                          <span class="col-r">{{ camp.conversions|int }}</span>
+                          <span class="col-c">{{ camp.cost_per_conv|aud }}</span>
+                          <span class="col-s">{{ camp.spend|aud }}</span>
+                        </div>
+                      </div>
+                      <div class="adsets">
+                        {% for adset in camp.adsets %}
+                        <div class="adset-row">
+                          <span class="adset-name">{{ adset.name }}</span>
+                          <div class="adset-nums">
+                            <span class="col-r">{{ adset.conversions|int }}</span>
+                            <span class="col-c">{{ adset.cost_per_conv|aud }}</span>
+                            <span class="col-s">{{ adset.spend|aud }}</span>
+                          </div>
+                        </div>
+                        {% endfor %}
+                      </div>
+                    </div>
+                    {% endfor %}
+                    {% endfor %}
+                  </div>
+                  {% endif %}
+                </div>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+    {% endfor %}
+
+    <p class="foot">All figures from live Google Ads &amp; Meta pulls · Generated {{ generated_date }}</p>
+  </div>
+
+<script>
+  function setPeriod(key) {
+    document.querySelectorAll('.period-panel').forEach(function(el){ el.classList.remove('active'); });
+    document.querySelectorAll('.toggle button').forEach(function(el){ el.classList.remove('active'); });
+    document.getElementById('period-' + key).classList.add('active');
+    event.target.classList.add('active');
+  }
+  function toggle(row){
+    var panel = row.closest('.period-panel');
+    var isOpen = row.classList.contains('open');
+    panel.querySelectorAll('tr.row.open').forEach(function(r){
+      r.classList.remove('open');
+      r.nextElementSibling.classList.remove('open');
+    });
+    if (!isOpen) {
+      row.classList.add('open');
+      row.nextElementSibling.classList.add('open');
+    }
+  }
+  function toggleCamp(el){
+    event.stopPropagation();
+    el.classList.toggle('open');
+  }
+</script>
+</body>
+</html>

@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ads Dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink:#1d1d1f; --muted:#86868b; --faint:#a1a1a6;
+    --line:#ececef; --bg:#fbfbfd; --panel:#ffffff; --hover:#f5f5f7;
+    --bad:#d23a31; --bad-bg:#fcefee; --good:#1a8f5c; --good-bg:#e9f6ef; --accent:#8a8a8e;
+  }
+  * { box-sizing:border-box; }
+  html,body { -webkit-font-smoothing:antialiased; }
+  body { margin:0; background:var(--bg); color:var(--ink);
+         font-family:"Inter",-apple-system,BlinkMacSystemFont,sans-serif; line-height:1.5;
+         letter-spacing:-0.01em; }
+
+  .wrap { max-width:960px; margin:0 auto; padding:56px 24px 64px; }
+  h1 { font-size:28px; font-weight:600; letter-spacing:-0.02em; margin:0 0 16px; }
+
+  .toggle { display:flex; gap:6px; margin-bottom:28px; }
+  .toggle button { padding:7px 16px; border-radius:999px; border:1px solid var(--line);
+                   background:var(--panel); color:var(--muted); font-size:13px; font-weight:500;
+                   cursor:pointer; font-family:inherit; transition:all .15s ease; }
+  .toggle button:hover { border-color:var(--accent); color:var(--ink); }
+  .toggle button.active { background:var(--ink); border-color:var(--ink); color:#fff; }
+  .dates { color:var(--muted); font-size:13px; margin:-20px 0 24px; }
+  .period-panel { display:none; }
+  .period-panel.active { display:block; }
+
+  .panel { background:var(--panel); border:1px solid var(--line); border-radius:16px; overflow:hidden;
+           box-shadow:0 1px 2px rgba(0,0,0,.03); }
+  table { width:100%; border-collapse:collapse; }
+  thead th { padding:14px 24px; border-bottom:1px solid var(--line); text-align:left;
+             font-size:11px; font-weight:600; text-transform:uppercase; letter-spacing:.04em; color:var(--faint); }
+  th.num, td.num { text-align:center; font-variant-numeric:tabular-nums; white-space:nowrap; }
+
+  /* ── Summary rows (client level) ── */
+  tr.summary-row > td { padding:18px 24px; border-bottom:1px solid var(--line); cursor:pointer; font-size:15px; }
+  tr.summary-row:hover > td { background:var(--hover); }
+  .client-name { font-weight:600; font-size:16px; display:flex; align-items:center; gap:10px; }
+  .chev { color:var(--accent); font-size:10px; transition:transform .18s ease; }
+  tr.summary-row.open .chev { transform:rotate(90deg); }
+
+  .delta-up { color:var(--good); } .delta-down { color:var(--bad); } .delta-flat { color:var(--faint); }
+  .delta-cost-up { color:var(--bad); } .delta-cost-down { color:var(--good); }
+
+  .pill { display:inline-flex; align-items:center; gap:7px; padding:5px 12px; border-radius:999px;
+          font-size:13px; font-weight:500; white-space:nowrap; }
+  .pill .dot { width:7px; height:7px; border-radius:50%; }
+  .pill.bad  { background:var(--bad-bg);  color:var(--bad);  } .pill.bad  .dot { background:var(--bad);  }
+  .pill.good { background:var(--good-bg); color:var(--good); } .pill.good .dot { background:var(--good); }
+  .pill.ok   { background:var(--hover);   color:var(--muted);} .pill.ok   .dot { background:var(--faint);}
+
+  /* ── Drill rows — all hidden until client is opened ── */
+  tr.drill-row { display:none; }
+  tr.drill-row:not(.hidden) { display:table-row; }
+
+  /* Platform rows */
+  tr.plat-row > td { padding:10px 24px; background:var(--hover); border-bottom:1px solid var(--line);
+                     font-size:13px; font-weight:600; cursor:pointer; }
+  tr.plat-row:hover > td { background:#eeeef0; }
+  .plat-chev { color:var(--accent); font-size:9px; margin-right:8px; display:inline-block;
+               transform:rotate(90deg); transition:transform .15s; }
+  tr.plat-row.collapsed .plat-chev { transform:rotate(0deg); }
+
+  /* Campaign rows */
+  tr.camp-row > td { padding:10px 24px; border-bottom:1px solid var(--line); font-size:14px; cursor:pointer; }
+  tr.camp-row:hover > td { background:var(--hover); }
+  .camp-chev { color:var(--accent); font-size:9px; margin-right:6px; display:inline-block;
+               transition:transform .15s; }
+  tr.camp-row.open .camp-chev { transform:rotate(90deg); }
+
+  /* Adset rows */
+  tr.adset-row > td { padding:9px 24px; border-bottom:1px solid var(--line); font-size:13px; }
+  tr.adset-row > td:first-child { color:var(--muted); }
+
+  /* Conversion breakdown header + rows */
+  tr.conv-header-row > td { padding:8px 24px 4px; font-size:11px; font-weight:600; text-transform:uppercase;
+                            letter-spacing:.04em; color:var(--faint); border-top:1px solid var(--line); }
+  tr.conv-row > td { padding:7px 24px; border-bottom:1px dashed var(--line); font-size:13px; color:var(--faint); }
+  tr.conv-row > td.num { color:var(--muted); }
+
+  /* Indents — applied to first td of drill rows */
+  .i1 { padding-left:44px !important; }
+  .i2 { padding-left:64px !important; }
+  .i3 { padding-left:80px !important; }
+
+  /* Last summary row — remove bottom border when closed */
+  tr.summary-row:last-of-type > td { border-bottom:none; }
+
+  .foot { color:var(--faint); font-size:12px; margin-top:20px; text-align:center; }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>Ads Dashboard</h1>
+
+    <div class="toggle">
+      {% for period in periods %}
+      <button onclick="setPeriod('{{ period.key }}')" {% if loop.first %}class="active"{% endif %}>{{ period.label }}</button>
+      {% endfor %}
+    </div>
+
+    {% for period in periods %}
+    <div id="period-{{ period.key }}" class="period-panel {% if loop.first %}active{% endif %}">
+      <p class="dates">{{ period.date_str }} · AUD</p>
+      <div class="panel">
+        <table>
+          <thead>
+            <tr>
+              <th>Client</th>
+              <th class="num">Results</th>
+              <th class="num">Cost / result</th>
+              <th class="num">Spend</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for c in period.clients %}
+
+            {# ── Summary row ── #}
+            <tr class="summary-row" onclick="toggleClient(this)">
+              <td><span class="client-name"><span class="chev">▶</span>{{ c.name }}</span></td>
+              <td class="num">{{ c.total_conversions|int }} <span class="{{ c.conv_delta_class }}">({{ c.conv_delta_str }})</span></td>
+              <td class="num">{{ c.total_cpc|aud }} <span class="{{ c.cpc_delta_class }}">({{ c.cpc_delta_str }})</span></td>
+              <td class="num">{{ c.total_spend|aud }}</td>
+              <td><span class="pill {{ c.status }}"><span class="dot"></span>{{ c.status_label }}</span></td>
+            </tr>
+
+            {# ── Drill rows — sit directly in tbody, hidden until client opened ── #}
+            {% for grp in c.campaign_groups %}
+            {% set plat = c.platforms | selectattr('name', 'equalto', grp.platform) | first | default(none) %}
+
+            {# Platform row #}
+            <tr class="drill-row plat-row hidden collapsed" onclick="togglePlat(this)">
+              <td class="i1"><span class="plat-chev">▶</span>{{ grp.platform }}</td>
+              {% if plat %}
+              <td class="num">{{ plat.conversions|int }} <span class="{{ plat.conv_delta_class }}">({{ plat.conv_delta_str }})</span></td>
+              <td class="num">{{ plat.cost_per_conv|aud }} <span class="{{ plat.cpc_delta_class }}">({{ plat.cpc_delta_str }})</span></td>
+              <td class="num">{{ plat.spend|aud }}</td>
+              {% else %}
+              <td class="num">—</td><td class="num">—</td><td class="num">—</td>
+              {% endif %}
+              <td></td>
+            </tr>
+
+            {# Campaign rows #}
+            {% for camp in grp.campaigns %}
+            <tr class="drill-row camp-row hidden" onclick="toggleCampRow(this)">
+              <td class="i2"><span class="camp-chev">▶</span>{{ camp.name }}</td>
+              <td class="num">{{ camp.conversions|int }}</td>
+              <td class="num">{{ camp.cost_per_conv|aud }}</td>
+              <td class="num">{{ camp.spend|aud }}</td>
+              <td></td>
+            </tr>
+
+            {# Adset rows #}
+            {% for adset in camp.adsets %}
+            <tr class="drill-row adset-row hidden">
+              <td class="i3">{{ adset.name }}</td>
+              <td class="num">{{ adset.conversions|int }}</td>
+              <td class="num">{{ adset.cost_per_conv|aud }}</td>
+              <td class="num">{{ adset.spend|aud }}</td>
+              <td></td>
+            </tr>
+            {% endfor %}
+            {% endfor %}
+
+            {# Conversion breakdown rows for this platform #}
+            {% for bd in c.breakdown if bd.platform == grp.platform %}
+            {% if bd.entries %}
+            <tr class="drill-row conv-header-row hidden">
+              <td class="i1" colspan="5">Conversion types — {{ grp.platform }}</td>
+            </tr>
+            {% for item in bd.entries %}
+            <tr class="drill-row conv-row hidden">
+              <td class="i2">{{ item.name }}</td>
+              <td class="num">{{ item.conversions|int }}</td>
+              <td></td><td></td><td></td>
+            </tr>
+            {% endfor %}
+            {% endif %}
+            {% endfor %}
+
+            {% endfor %}{# end campaign_groups #}
+
+            {% endfor %}{# end clients #}
+          </tbody>
+        </table>
+      </div>
+    </div>
+    {% endfor %}
+
+    <p class="foot">All figures from live Google Ads &amp; Meta pulls · Generated {{ generated_date }}</p>
+  </div>
+
+<script>
+  function setPeriod(key) {
+    document.querySelectorAll('.period-panel').forEach(function(el){ el.classList.remove('active'); });
+    document.querySelectorAll('.toggle button').forEach(function(el){ el.classList.remove('active'); });
+    document.getElementById('period-' + key).classList.add('active');
+    event.target.classList.add('active');
+  }
+
+  function toggleClient(row) {
+    var panel = row.closest('.period-panel');
+    var isOpen = row.classList.contains('open');
+
+    // Close all open clients in this panel
+    panel.querySelectorAll('tr.summary-row.open').forEach(function(r) {
+      r.classList.remove('open');
+      var next = r.nextElementSibling;
+      while (next && next.classList.contains('drill-row')) {
+        next.classList.add('hidden');
+        next = next.nextElementSibling;
+      }
+    });
+
+    if (!isOpen) {
+      row.classList.add('open');
+      var next = row.nextElementSibling;
+      while (next && next.classList.contains('drill-row')) {
+        // Client open: show platform rows only — everything else stays hidden
+        if (next.classList.contains('plat-row')) {
+          next.classList.remove('hidden');
+        }
+        next = next.nextElementSibling;
+      }
+    }
+  }
+
+  function togglePlat(platRow) {
+    event.stopPropagation();
+    platRow.classList.toggle('collapsed');
+    var collapsed = platRow.classList.contains('collapsed');
+    var next = platRow.nextElementSibling;
+    while (next && next.classList.contains('drill-row') &&
+           !next.classList.contains('plat-row')) {
+      if (collapsed) {
+        next.classList.add('hidden');
+      } else {
+        // Platform open: show campaigns and conv breakdown rows — not adsets
+        if (next.classList.contains('camp-row') ||
+            next.classList.contains('conv-header-row') ||
+            next.classList.contains('conv-row')) {
+          next.classList.remove('hidden');
+        }
+      }
+      next = next.nextElementSibling;
+    }
+  }
+
+  function toggleCampRow(campRow) {
+    event.stopPropagation();
+    campRow.classList.toggle('open');
+    var opening = campRow.classList.contains('open');
+    var next = campRow.nextElementSibling;
+    while (next && next.classList.contains('adset-row')) {
+      if (opening) { next.classList.remove('hidden'); }
+      else { next.classList.add('hidden'); }
+      next = next.nextElementSibling;
+    }
+  }
+</script>
+</body>
+</html>

@@ -1,0 +1,7 @@
+generator/.env
+generator/__pycache__/
+decrypted/
+_encrypted/
+_tmp_plain.html
+*.pyc
+.DS_Store
