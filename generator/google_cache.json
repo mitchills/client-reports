@@ -29,7 +29,14 @@
       "prior": {
         "conversions": 0,
         "cost_per_conv": 0.0
-      }
+      },
+      "verified": true,
+      "pulled_at": "2026-06-16",
+      "account_check": {
+        "spend": 137.56,
+        "conversions": 3
+      },
+      "note": ""
     },
     "2026-05-01_2026-05-31": {
       "spend": 563.45,
@@ -60,7 +67,14 @@
       "prior": {
         "conversions": 0,
         "cost_per_conv": 0.0
-      }
+      },
+      "verified": true,
+      "pulled_at": "2026-06-16",
+      "account_check": {
+        "spend": 563.44,
+        "conversions": 10
+      },
+      "note": ""
     }
   },
   "2080537843": {
@@ -93,7 +107,14 @@
       "prior": {
         "conversions": 0,
         "cost_per_conv": 0.0
-      }
+      },
+      "verified": true,
+      "pulled_at": "2026-06-16",
+      "account_check": {
+        "spend": 254.54,
+        "conversions": 2
+      },
+      "note": ""
     },
     "2026-05-01_2026-05-31": {
       "spend": 602.21,
@@ -124,7 +145,14 @@
       "prior": {
         "conversions": 0,
         "cost_per_conv": 0.0
-      }
+      },
+      "verified": true,
+      "pulled_at": "2026-06-16",
+      "account_check": {
+        "spend": 602.22,
+        "conversions": 5
+      },
+      "note": ""
     }
   },
   "3650022070": {
@@ -150,7 +178,14 @@
       "prior": {
         "conversions": 0,
         "cost_per_conv": 0.0
-      }
+      },
+      "verified": true,
+      "pulled_at": "2026-06-16",
+      "account_check": {
+        "spend": 56.1,
+        "conversions": 2
+      },
+      "note": ""
     },
     "2026-05-01_2026-05-31": {
       "spend": 308.28,
@@ -174,7 +209,14 @@
       "prior": {
         "conversions": 0,
         "cost_per_conv": 0.0
-      }
+      },
+      "verified": true,
+      "pulled_at": "2026-06-16",
+      "account_check": {
+        "spend": 308.28,
+        "conversions": 8
+      },
+      "note": ""
     }
   },
   "6443816223": {
@@ -200,7 +242,14 @@
       "prior": {
         "conversions": 0,
         "cost_per_conv": 0.0
-      }
+      },
+      "verified": true,
+      "pulled_at": "2026-06-16",
+      "account_check": {
+        "spend": 406.7,
+        "conversions": 12
+      },
+      "note": ""
     },
     "2026-05-01_2026-05-31": {
       "spend": 1375.48,
@@ -224,7 +273,14 @@
       "prior": {
         "conversions": 0,
         "cost_per_conv": 0.0
-      }
+      },
+      "verified": true,
+      "pulled_at": "2026-06-16",
+      "account_check": {
+        "spend": 1375.48,
+        "conversions": 57.99
+      },
+      "note": ""
     }
   }
 }

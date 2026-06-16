@@ -29,7 +29,14 @@
       "prior": {
         "conversions": 0,
         "cost_per_conv": 0.0
-      }
+      },
+      "verified": true,
+      "pulled_at": "2026-06-16",
+      "account_check": {
+        "spend": 124.15,
+        "conversions": 2
+      },
+      "note": ""
     },
     "2026-05-01_2026-05-31": {
       "spend": 781.86,
@@ -60,7 +67,14 @@
       "prior": {
         "conversions": 0,
         "cost_per_conv": 0.0
-      }
+      },
+      "verified": true,
+      "pulled_at": "2026-06-16",
+      "account_check": {
+        "spend": 781.86,
+        "conversions": 8
+      },
+      "note": ""
     }
   },
   "act_851463511303862": {
@@ -86,7 +100,14 @@
       "prior": {
         "conversions": 1,
         "cost_per_conv": 163.66
-      }
+      },
+      "verified": true,
+      "pulled_at": "2026-06-16",
+      "account_check": {
+        "spend": 339.02,
+        "conversions": 5
+      },
+      "note": ""
     },
     "2026-05-01_2026-05-31": {
       "spend": 1467.31,
@@ -105,7 +126,14 @@
       "prior": {
         "conversions": 0,
         "cost_per_conv": 0.0
-      }
+      },
+      "verified": true,
+      "pulled_at": "2026-06-16",
+      "account_check": {
+        "spend": 1467.31,
+        "conversions": 0
+      },
+      "note": ""
     }
   },
   "act_631477383077560": {
@@ -131,7 +159,14 @@
       "prior": {
         "conversions": 2,
         "cost_per_conv": 53.52
-      }
+      },
+      "verified": true,
+      "pulled_at": "2026-06-16",
+      "account_check": {
+        "spend": 133.8,
+        "conversions": 6
+      },
+      "note": ""
     },
     "2026-05-01_2026-05-31": {
       "spend": 750.43,
@@ -155,7 +190,14 @@
       "prior": {
         "conversions": 0,
         "cost_per_conv": 0.0
-      }
+      },
+      "verified": true,
+      "pulled_at": "2026-06-16",
+      "account_check": {
+        "spend": 750.43,
+        "conversions": 26
+      },
+      "note": ""
     }
   },
   "act_718379509811221": {
@@ -181,7 +223,14 @@
       "prior": {
         "conversions": 13,
         "cost_per_conv": 43.77
-      }
+      },
+      "verified": true,
+      "pulled_at": "2026-06-16",
+      "account_check": {
+        "spend": 799.48,
+        "conversions": 6
+      },
+      "note": ""
     },
     "2026-05-01_2026-05-31": {
       "spend": 2002.56,
@@ -212,7 +261,14 @@
       "prior": {
         "conversions": 0,
         "cost_per_conv": 0.0
-      }
+      },
+      "verified": true,
+      "pulled_at": "2026-06-16",
+      "account_check": {
+        "spend": 2002.56,
+        "conversions": 29
+      },
+      "note": ""
     }
   },
   "act_488804362788988": {
@@ -266,7 +322,14 @@
       "prior": {
         "conversions": 20,
         "cost_per_conv": 57.36
-      }
+      },
+      "verified": true,
+      "pulled_at": "2026-06-16",
+      "account_check": {
+        "spend": 1283.91,
+        "conversions": 25
+      },
+      "note": ""
     },
     "2026-05-01_2026-05-31": {
       "spend": 5706.92,
@@ -318,7 +381,14 @@
       "prior": {
         "conversions": 0,
         "cost_per_conv": 0.0
-      }
+      },
+      "verified": true,
+      "pulled_at": "2026-06-16",
+      "account_check": {
+        "spend": 5706.92,
+        "conversions": 98
+      },
+      "note": ""
     }
   },
   "act_887644738898147": {
@@ -344,7 +414,14 @@
       "prior": {
         "conversions": 2,
         "cost_per_conv": 138.24
-      }
+      },
+      "verified": true,
+      "pulled_at": "2026-06-16",
+      "account_check": {
+        "spend": 287.85,
+        "conversions": 2
+      },
+      "note": ""
     },
     "2026-05-01_2026-05-31": {
       "spend": 1779.56,
@@ -382,7 +459,14 @@
       "prior": {
         "conversions": 0,
         "cost_per_conv": 0.0
-      }
+      },
+      "verified": true,
+      "pulled_at": "2026-06-16",
+      "account_check": {
+        "spend": 1779.56,
+        "conversions": 24
+      },
+      "note": ""
     }
   }
 }

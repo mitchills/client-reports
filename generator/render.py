@@ -4,9 +4,11 @@ Merge pull data → fill template → encrypt → write index.html.
 
 import os
 import subprocess
-from datetime import date, timedelta
+from datetime import date, datetime, timedelta
 from pathlib import Path
 from jinja2 import Environment, FileSystemLoader, pass_eval_context
+
+STALE_AFTER_DAYS = 8  # data older than this is flagged stale on the dashboard
 
 GENERATOR_DIR = Path(__file__).parent
 REPO_DIR = GENERATOR_DIR.parent
@@ -73,6 +75,39 @@ def _attention_note(conv_pct, cpc_pct):
     if not parts:
         return None
     return " and ".join(parts).capitalize() + " vs the prior period."
+
+
+# ── Data-quality flag ────────────────────────────────────────────────────────
+
+def _data_flag(pulls: list[dict]) -> dict:
+    """
+    Worst-case trust signal across a client's platform pulls.
+    error = a pull failed reconciliation (don't trust the number).
+    stale = data older than STALE_AFTER_DAYS.
+    """
+    level = None  # None < stale < error
+    notes = []
+    for p in pulls:
+        plat = p["platform"].capitalize()
+        if not p.get("verified", False):
+            level = "error"
+            notes.append(f"{plat} unverified")
+            continue
+        pulled = p.get("pulled_at")
+        if pulled:
+            try:
+                age = (date.today() - datetime.strptime(pulled, "%Y-%m-%d").date()).days
+                if age > STALE_AFTER_DAYS and level != "error":
+                    level = "stale"
+                    notes.append(f"{plat} {age}d old")
+            except ValueError:
+                pass
+        if p.get("note"):
+            notes.append(f"{plat}: {p['note']}")
+    if level is None and not notes:
+        return {"level": None, "label": "", "note": ""}
+    label = {"error": "⚠ Data error", "stale": "⚠ Stale"}.get(level, "⚠ Check")
+    return {"level": level, "label": label, "note": "; ".join(notes)}
 
 
 # ── Data merge ─────────────────────────────────────────────────────────────────
@@ -142,7 +177,7 @@ def merge_client(name: str, pulls: list[dict]) -> dict:
         "platforms": platforms,
         "breakdown": breakdown,
         "campaign_groups": campaign_groups,
-        "flag": None,
+        "data_flag": _data_flag(pulls),
     }
 
 

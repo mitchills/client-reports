@@ -96,6 +96,11 @@
   /* Last summary row — remove bottom border when closed */
   tr.summary-row:last-of-type > td { border-bottom:none; }
 
+  .chip-warn { display:inline-flex; align-items:center; padding:3px 9px; border-radius:999px;
+               font-size:11px; font-weight:600; margin-left:8px; white-space:nowrap; cursor:help; }
+  .chip-warn.error { background:var(--bad-bg); color:var(--bad); }
+  .chip-warn.stale { background:#fdf3e7; color:#b2630a; }
+
   .foot { color:var(--faint); font-size:12px; margin-top:20px; text-align:center; }
 </style>
 </head>
@@ -128,7 +133,7 @@
 
             {# ── Summary row ── #}
             <tr class="summary-row" onclick="toggleClient(this)">
-              <td><span class="client-name"><span class="chev">▶</span>{{ c.name }}</span></td>
+              <td><span class="client-name"><span class="chev">▶</span>{{ c.name }}{% if c.data_flag.level %}<span class="chip-warn {{ c.data_flag.level }}" title="{{ c.data_flag.note }}">{{ c.data_flag.label }}</span>{% endif %}</span></td>
               <td class="num">{{ c.total_conversions|int }} <span class="{{ c.conv_delta_class }}">({{ c.conv_delta_str }})</span></td>
               <td class="num">{{ c.total_cpc|aud }} <span class="{{ c.cpc_delta_class }}">({{ c.cpc_delta_str }})</span></td>
               <td class="num">{{ c.total_spend|aud }}</td>

@@ -30,4 +30,7 @@ def pull(account_id: str, period_start: date, period_end: date) -> dict:
         "breakdown": data["breakdown"],
         "prior": data["prior"],
         "campaigns": data.get("campaigns", []),
+        "verified": data.get("verified", False),
+        "pulled_at": data.get("pulled_at"),
+        "note": data.get("note", ""),
     }

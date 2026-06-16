@@ -142,6 +142,19 @@ def main():
         print("No data pulled — aborting.", file=sys.stderr)
         sys.exit(1)
 
+    # ── Publish gate: refuse to publish if cache data doesn't reconcile ──
+    if args.pipeboard or not google_ready:
+        used_keys = [f"{p['start']}_{p['end']}" for p in all_periods]
+        import verify_cache
+        ok, errors = verify_cache.verify(keys=used_keys)
+        if not ok:
+            print("✗ PUBLISH BLOCKED — cache failed verification:", file=sys.stderr)
+            for e in errors:
+                print(f"   {e}", file=sys.stderr)
+            print("Dashboard NOT updated. Fix the cache and re-run.", file=sys.stderr)
+            sys.exit(1)
+        print(f"✓ Verified {len(used_keys)} period(s) — figures reconcile to account totals.")
+
     print("Rendering and encrypting dashboard …")
     render_and_publish(all_periods)
     print("Done.")
