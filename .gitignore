@@ -5,3 +5,5 @@ _encrypted/
 _tmp_plain.html
 *.pyc
 .DS_Store
+generator/venv/
+generator/logs/

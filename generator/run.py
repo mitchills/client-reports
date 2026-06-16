@@ -1,7 +1,9 @@
 """
 Orchestrator — the one thing Mitch runs.
-Usage: python run.py [--ref YYYY-MM-DD]
-  --ref  reference end date for "last 7 days" (default: yesterday)
+Usage: python run.py [--ref YYYY-MM-DD] [--pipeboard]
+  --ref       reference end date for "last 7 days" (default: yesterday)
+  --pipeboard use Pipeboard-cached data for both Google and Meta
+              (reads google_cache.json + meta_cache.json, skips live SDK calls)
 """
 
 import argparse
@@ -52,7 +54,7 @@ def compute_periods(ref: date) -> list[dict]:
     ]
 
 
-def pull_period(period: dict, clients: list, g_client, google_ready: bool) -> list[dict]:
+def pull_period(period: dict, clients: list, g_client, google_ready: bool, g_fallback=None) -> list[dict]:
     """Pull all clients for a single period. Returns list of merged client dicts."""
     results = []
     errors = []
@@ -61,9 +63,12 @@ def pull_period(period: dict, clients: list, g_client, google_ready: bool) -> li
         name = c["name"]
         pulls = []
 
-        if google_ready and c.get("google_customer_id"):
+        if (google_ready or g_fallback) and c.get("google_customer_id"):
             try:
-                result = google_pull.pull(g_client, c["google_customer_id"], period["start"], period["end"])
+                if google_ready:
+                    result = google_pull.pull(g_client, c["google_customer_id"], period["start"], period["end"])
+                else:
+                    result = g_fallback(c["google_customer_id"], period["start"], period["end"])
                 pulls.append(result)
             except Exception as e:
                 errors.append(f"{name} Google: {e}")
@@ -88,6 +93,7 @@ def pull_period(period: dict, clients: list, g_client, google_ready: bool) -> li
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--ref", help="Reference end date YYYY-MM-DD (default: yesterday)")
+    parser.add_argument("--pipeboard", action="store_true", help="Use Pipeboard-cached data for both Google and Meta")
     args = parser.parse_args()
 
     ref = (
@@ -96,18 +102,37 @@ def main():
     )
 
     periods = compute_periods(ref)
-    clients = json.loads(CLIENTS_FILE.read_text())
 
-    google_ready = os.environ.get("GOOGLE_DEVELOPER_TOKEN", "PENDING") != "PENDING"
+    if args.pipeboard:
+        pipeboard_clients_file = Path(__file__).parent / "clients_pipeboard.json"
+        clients = json.loads(pipeboard_clients_file.read_text())
+        print("Pipeboard mode — loading clients_pipeboard.json")
+    else:
+        clients = json.loads(CLIENTS_FILE.read_text())
+
+    google_ready = (not args.pipeboard) and os.environ.get("GOOGLE_DEVELOPER_TOKEN", "PENDING") != "PENDING"
     g_client = google_pull.build_client() if google_ready else None
+    g_fallback = None
     if not google_ready:
-        print("Google credentials not set — skipping Google pulls.")
-    meta_pull.init()
+        try:
+            import google_cache_pull
+            g_fallback = google_cache_pull.pull
+            if not args.pipeboard:
+                print("Google credentials not set — using cached Pipeboard data.")
+        except ImportError:
+            print("Google credentials not set — skipping Google pulls.")
+
+    if args.pipeboard:
+        import meta_cache_pull as _meta_cache
+        meta_pull.pull = _meta_cache.pull  # swap in cache-backed puller
+        print("Pipeboard mode — Meta data served from meta_cache.json")
+    else:
+        meta_pull.init()
 
     all_periods = []
     for period in periods:
         print(f"Pulling {period['label']} ({period['date_str']}) …")
-        clients_data = pull_period(period, clients, g_client, google_ready)
+        clients_data = pull_period(period, clients, g_client, google_ready, g_fallback)
         if not clients_data:
             print(f"  No data for {period['label']} — skipping.")
             continue

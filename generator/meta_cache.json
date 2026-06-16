@@ -1,0 +1,388 @@
+{
+  "act_1405008824620416": {
+    "2026-06-09_2026-06-15": {
+      "spend": 124.15,
+      "conversions": 2,
+      "cost_per_conv": 62.08,
+      "breakdown": [
+        {
+          "name": "Booking",
+          "conversions": 2
+        }
+      ],
+      "campaigns": [
+        {
+          "name": "MM | Conversions | Physio",
+          "spend": 78.27,
+          "conversions": 1,
+          "cost_per_conv": 78.27,
+          "adsets": []
+        },
+        {
+          "name": "MM | Conversions | Chiro",
+          "spend": 45.88,
+          "conversions": 1,
+          "cost_per_conv": 45.88,
+          "adsets": []
+        }
+      ],
+      "prior": {
+        "conversions": 0,
+        "cost_per_conv": 0.0
+      }
+    },
+    "2026-05-01_2026-05-31": {
+      "spend": 781.86,
+      "conversions": 8,
+      "cost_per_conv": 97.73,
+      "breakdown": [
+        {
+          "name": "Booking",
+          "conversions": 8
+        }
+      ],
+      "campaigns": [
+        {
+          "name": "MM | Conversions | Physio",
+          "spend": 563.14,
+          "conversions": 8,
+          "cost_per_conv": 70.39,
+          "adsets": []
+        },
+        {
+          "name": "MM | Conversions | Chiro",
+          "spend": 218.72,
+          "conversions": 0,
+          "cost_per_conv": 0.0,
+          "adsets": []
+        }
+      ],
+      "prior": {
+        "conversions": 0,
+        "cost_per_conv": 0.0
+      }
+    }
+  },
+  "act_851463511303862": {
+    "2026-06-09_2026-06-15": {
+      "spend": 339.0,
+      "conversions": 5,
+      "cost_per_conv": 67.8,
+      "breakdown": [
+        {
+          "name": "Lead",
+          "conversions": 5
+        }
+      ],
+      "campaigns": [
+        {
+          "name": "MM | Conversions | Physio",
+          "spend": 339.0,
+          "conversions": 5,
+          "cost_per_conv": 67.8,
+          "adsets": []
+        }
+      ],
+      "prior": {
+        "conversions": 1,
+        "cost_per_conv": 163.66
+      }
+    },
+    "2026-05-01_2026-05-31": {
+      "spend": 1467.31,
+      "conversions": 0,
+      "cost_per_conv": 0.0,
+      "breakdown": [],
+      "campaigns": [
+        {
+          "name": "MM | Conversions | Physio",
+          "spend": 1467.31,
+          "conversions": 0,
+          "cost_per_conv": 0.0,
+          "adsets": []
+        }
+      ],
+      "prior": {
+        "conversions": 0,
+        "cost_per_conv": 0.0
+      }
+    }
+  },
+  "act_631477383077560": {
+    "2026-06-09_2026-06-15": {
+      "spend": 133.8,
+      "conversions": 6,
+      "cost_per_conv": 22.3,
+      "breakdown": [
+        {
+          "name": "Booking",
+          "conversions": 6
+        }
+      ],
+      "campaigns": [
+        {
+          "name": "MM | Conversions | Chiro",
+          "spend": 133.8,
+          "conversions": 6,
+          "cost_per_conv": 22.3,
+          "adsets": []
+        }
+      ],
+      "prior": {
+        "conversions": 2,
+        "cost_per_conv": 53.52
+      }
+    },
+    "2026-05-01_2026-05-31": {
+      "spend": 750.43,
+      "conversions": 26,
+      "cost_per_conv": 28.86,
+      "breakdown": [
+        {
+          "name": "Booking",
+          "conversions": 26
+        }
+      ],
+      "campaigns": [
+        {
+          "name": "MM | Conversions | Chiro",
+          "spend": 750.43,
+          "conversions": 26,
+          "cost_per_conv": 28.86,
+          "adsets": []
+        }
+      ],
+      "prior": {
+        "conversions": 0,
+        "cost_per_conv": 0.0
+      }
+    }
+  },
+  "act_718379509811221": {
+    "2026-06-09_2026-06-15": {
+      "spend": 799.48,
+      "conversions": 6,
+      "cost_per_conv": 133.25,
+      "breakdown": [
+        {
+          "name": "Booking",
+          "conversions": 6
+        }
+      ],
+      "campaigns": [
+        {
+          "name": "MM | Bookings | Osteo",
+          "spend": 799.48,
+          "conversions": 6,
+          "cost_per_conv": 133.25,
+          "adsets": []
+        }
+      ],
+      "prior": {
+        "conversions": 13,
+        "cost_per_conv": 43.77
+      }
+    },
+    "2026-05-01_2026-05-31": {
+      "spend": 2002.56,
+      "conversions": 29,
+      "cost_per_conv": 69.05,
+      "breakdown": [
+        {
+          "name": "Booking",
+          "conversions": 29
+        }
+      ],
+      "campaigns": [
+        {
+          "name": "MM | Bookings | Osteo",
+          "spend": 1696.98,
+          "conversions": 25,
+          "cost_per_conv": 67.88,
+          "adsets": []
+        },
+        {
+          "name": "MM | Bookings | Remedial",
+          "spend": 305.58,
+          "conversions": 4,
+          "cost_per_conv": 76.39,
+          "adsets": []
+        }
+      ],
+      "prior": {
+        "conversions": 0,
+        "cost_per_conv": 0.0
+      }
+    }
+  },
+  "act_488804362788988": {
+    "2026-06-09_2026-06-15": {
+      "spend": 1283.91,
+      "conversions": 25,
+      "cost_per_conv": 51.36,
+      "breakdown": [
+        {
+          "name": "Booking",
+          "conversions": 25
+        }
+      ],
+      "campaigns": [
+        {
+          "name": "MM | Cliniko Bookings | BH",
+          "spend": 606.78,
+          "conversions": 17,
+          "cost_per_conv": 35.69,
+          "adsets": []
+        },
+        {
+          "name": "MM | Cliniko Bookings | TW",
+          "spend": 516.91,
+          "conversions": 7,
+          "cost_per_conv": 73.84,
+          "adsets": []
+        },
+        {
+          "name": "MM | Cliniko Bookings | COOP",
+          "spend": 57.93,
+          "conversions": 1,
+          "cost_per_conv": 57.93,
+          "adsets": []
+        },
+        {
+          "name": "MM | IG Page Visits",
+          "spend": 28.36,
+          "conversions": 0,
+          "cost_per_conv": 0.0,
+          "adsets": []
+        },
+        {
+          "name": "Instagram post (boosted)",
+          "spend": 73.93,
+          "conversions": 0,
+          "cost_per_conv": 0.0,
+          "adsets": []
+        }
+      ],
+      "prior": {
+        "conversions": 20,
+        "cost_per_conv": 57.36
+      }
+    },
+    "2026-05-01_2026-05-31": {
+      "spend": 5706.92,
+      "conversions": 98,
+      "cost_per_conv": 58.23,
+      "breakdown": [
+        {
+          "name": "Booking",
+          "conversions": 98
+        }
+      ],
+      "campaigns": [
+        {
+          "name": "MM | Cliniko Bookings | BH",
+          "spend": 2927.57,
+          "conversions": 53,
+          "cost_per_conv": 55.24,
+          "adsets": []
+        },
+        {
+          "name": "MM | Cliniko Bookings | TW",
+          "spend": 2080.51,
+          "conversions": 37,
+          "cost_per_conv": 56.23,
+          "adsets": []
+        },
+        {
+          "name": "MM | Cliniko Bookings | COOP",
+          "spend": 517.08,
+          "conversions": 6,
+          "cost_per_conv": 86.18,
+          "adsets": []
+        },
+        {
+          "name": "MM | IG Page Visits",
+          "spend": 124.2,
+          "conversions": 2,
+          "cost_per_conv": 62.1,
+          "adsets": []
+        },
+        {
+          "name": "Instagram post (boosted)",
+          "spend": 57.56,
+          "conversions": 0,
+          "cost_per_conv": 0.0,
+          "adsets": []
+        }
+      ],
+      "prior": {
+        "conversions": 0,
+        "cost_per_conv": 0.0
+      }
+    }
+  },
+  "act_887644738898147": {
+    "2026-06-09_2026-06-15": {
+      "spend": 287.85,
+      "conversions": 2,
+      "cost_per_conv": 143.93,
+      "breakdown": [
+        {
+          "name": "Lead",
+          "conversions": 2
+        }
+      ],
+      "campaigns": [
+        {
+          "name": "MM | Forms | Info Pack",
+          "spend": 287.85,
+          "conversions": 2,
+          "cost_per_conv": 143.93,
+          "adsets": []
+        }
+      ],
+      "prior": {
+        "conversions": 2,
+        "cost_per_conv": 138.24
+      }
+    },
+    "2026-05-01_2026-05-31": {
+      "spend": 1779.56,
+      "conversions": 24,
+      "cost_per_conv": 74.15,
+      "breakdown": [
+        {
+          "name": "Lead",
+          "conversions": 24
+        }
+      ],
+      "campaigns": [
+        {
+          "name": "MM | Forms | Info Pack",
+          "spend": 1248.29,
+          "conversions": 15,
+          "cost_per_conv": 83.22,
+          "adsets": []
+        },
+        {
+          "name": "EXP Brightwater | Conversion",
+          "spend": 501.25,
+          "conversions": 6,
+          "cost_per_conv": 83.54,
+          "adsets": []
+        },
+        {
+          "name": "MM | Forms | Retarget",
+          "spend": 30.02,
+          "conversions": 3,
+          "cost_per_conv": 10.01,
+          "adsets": []
+        }
+      ],
+      "prior": {
+        "conversions": 0,
+        "cost_per_conv": 0.0
+      }
+    }
+  }
+}

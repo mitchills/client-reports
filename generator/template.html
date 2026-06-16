@@ -80,6 +80,9 @@
   tr.adset-row > td:first-child { color:var(--muted); }
 
   /* Conversion breakdown header + rows */
+  tr.conv-pill-row > td { padding:10px 24px 16px; }
+  tr.conv-pill-row .pill { margin-right:6px; font-size:13px; }
+  tr.conv-pill-row .pill b { font-weight:700; color:var(--ink); margin-right:2px; }
   tr.conv-header-row > td { padding:8px 24px 4px; font-size:11px; font-weight:600; text-transform:uppercase;
                             letter-spacing:.04em; color:var(--faint); border-top:1px solid var(--line); }
   tr.conv-row > td { padding:7px 24px; border-bottom:1px dashed var(--line); font-size:13px; color:var(--faint); }
@@ -151,8 +154,8 @@
 
             {# Campaign rows #}
             {% for camp in grp.campaigns %}
-            <tr class="drill-row camp-row hidden" onclick="toggleCampRow(this)">
-              <td class="i2"><span class="camp-chev">▶</span>{{ camp.name }}</td>
+            <tr class="drill-row camp-row hidden" {% if camp.adsets %}onclick="toggleCampRow(this)"{% endif %}>
+              <td class="i2">{% if camp.adsets %}<span class="camp-chev">▶</span>{% else %}<span class="camp-chev" style="visibility:hidden">▶</span>{% endif %}{{ camp.name }}</td>
               <td class="num">{{ camp.conversions|int }}</td>
               <td class="num">{{ camp.cost_per_conv|aud }}</td>
               <td class="num">{{ camp.spend|aud }}</td>
@@ -171,20 +174,19 @@
             {% endfor %}
             {% endfor %}
 
-            {# Conversion breakdown rows for this platform #}
+            {# Conversion type pills for this platform #}
             {% for bd in c.breakdown if bd.platform == grp.platform %}
-            {% if bd.entries %}
-            <tr class="drill-row conv-header-row hidden">
-              <td class="i1" colspan="5">Conversion types — {{ grp.platform }}</td>
+            <tr class="drill-row conv-pill-row hidden">
+              <td class="i1" colspan="5">
+                {% if bd.entries %}
+                  {% for item in bd.entries %}
+                  <span class="pill ok"><b>{{ item.conversions|int }}</b> {{ item.name }}</span>
+                  {% endfor %}
+                {% else %}
+                  <span class="pill ok" style="color:var(--faint);">No conversions this period</span>
+                {% endif %}
+              </td>
             </tr>
-            {% for item in bd.entries %}
-            <tr class="drill-row conv-row hidden">
-              <td class="i2">{{ item.name }}</td>
-              <td class="num">{{ item.conversions|int }}</td>
-              <td></td><td></td><td></td>
-            </tr>
-            {% endfor %}
-            {% endif %}
             {% endfor %}
 
             {% endfor %}{# end campaign_groups #}
@@ -246,8 +248,7 @@
       } else {
         // Platform open: show campaigns and conv breakdown rows — not adsets
         if (next.classList.contains('camp-row') ||
-            next.classList.contains('conv-header-row') ||
-            next.classList.contains('conv-row')) {
+            next.classList.contains('conv-pill-row')) {
           next.classList.remove('hidden');
         }
       }

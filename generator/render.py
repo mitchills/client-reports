@@ -113,21 +113,19 @@ def merge_client(name: str, pulls: list[dict]) -> dict:
 
     breakdown = []
     for p in pulls:
-        if p["breakdown"]:
-            breakdown.append({
-                "platform": p["platform"].capitalize(),
-                "entries": p["breakdown"],
-            })
+        breakdown.append({
+            "platform": p["platform"].capitalize(),
+            "entries": p["breakdown"],
+        })
 
     # Campaign → adset drill-down, grouped by platform
     campaign_groups = []
     for p in pulls:
         camps = p.get("campaigns", [])
-        if camps:
-            campaign_groups.append({
-                "platform": p["platform"].capitalize(),
-                "campaigns": camps,
-            })
+        campaign_groups.append({
+            "platform": p["platform"].capitalize(),
+            "campaigns": camps,
+        })
 
     return {
         "name": name,

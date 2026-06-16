@@ -1,0 +1,230 @@
+{
+  "1519461427": {
+    "2026-06-09_2026-06-15": {
+      "spend": 137.56,
+      "conversions": 3,
+      "cost_per_conv": 45.85,
+      "breakdown": [
+        {
+          "name": "Booking",
+          "conversions": 3
+        }
+      ],
+      "campaigns": [
+        {
+          "name": "MM | PMax | Physio",
+          "spend": 68.19,
+          "conversions": 2,
+          "cost_per_conv": 34.09,
+          "adsets": []
+        },
+        {
+          "name": "MM | PMax | Chiro",
+          "spend": 69.37,
+          "conversions": 1,
+          "cost_per_conv": 69.37,
+          "adsets": []
+        }
+      ],
+      "prior": {
+        "conversions": 0,
+        "cost_per_conv": 0.0
+      }
+    },
+    "2026-05-01_2026-05-31": {
+      "spend": 563.45,
+      "conversions": 10,
+      "cost_per_conv": 56.35,
+      "breakdown": [
+        {
+          "name": "Booking",
+          "conversions": 10
+        }
+      ],
+      "campaigns": [
+        {
+          "name": "MM | PMax | Physio",
+          "spend": 446.52,
+          "conversions": 8,
+          "cost_per_conv": 55.81,
+          "adsets": []
+        },
+        {
+          "name": "MM | PMax | Chiro",
+          "spend": 116.93,
+          "conversions": 2,
+          "cost_per_conv": 58.47,
+          "adsets": []
+        }
+      ],
+      "prior": {
+        "conversions": 0,
+        "cost_per_conv": 0.0
+      }
+    }
+  },
+  "2080537843": {
+    "2026-06-09_2026-06-15": {
+      "spend": 254.55,
+      "conversions": 2,
+      "cost_per_conv": 127.28,
+      "breakdown": [
+        {
+          "name": "Booking",
+          "conversions": 2
+        }
+      ],
+      "campaigns": [
+        {
+          "name": "MM | PMax | Physio",
+          "spend": 190.69,
+          "conversions": 2,
+          "cost_per_conv": 95.34,
+          "adsets": []
+        },
+        {
+          "name": "MM | Search | Physio",
+          "spend": 63.86,
+          "conversions": 0,
+          "cost_per_conv": 0.0,
+          "adsets": []
+        }
+      ],
+      "prior": {
+        "conversions": 0,
+        "cost_per_conv": 0.0
+      }
+    },
+    "2026-05-01_2026-05-31": {
+      "spend": 602.21,
+      "conversions": 5,
+      "cost_per_conv": 120.44,
+      "breakdown": [
+        {
+          "name": "Booking",
+          "conversions": 5
+        }
+      ],
+      "campaigns": [
+        {
+          "name": "MM | PMax | Physio",
+          "spend": 254.93,
+          "conversions": 3,
+          "cost_per_conv": 84.98,
+          "adsets": []
+        },
+        {
+          "name": "MM | Search | Physio",
+          "spend": 347.28,
+          "conversions": 2,
+          "cost_per_conv": 173.64,
+          "adsets": []
+        }
+      ],
+      "prior": {
+        "conversions": 0,
+        "cost_per_conv": 0.0
+      }
+    }
+  },
+  "3650022070": {
+    "2026-06-09_2026-06-15": {
+      "spend": 56.1,
+      "conversions": 2,
+      "cost_per_conv": 28.05,
+      "breakdown": [
+        {
+          "name": "Booking",
+          "conversions": 2
+        }
+      ],
+      "campaigns": [
+        {
+          "name": "MM | Search | Sports Chiro",
+          "spend": 56.1,
+          "conversions": 2,
+          "cost_per_conv": 28.05,
+          "adsets": []
+        }
+      ],
+      "prior": {
+        "conversions": 0,
+        "cost_per_conv": 0.0
+      }
+    },
+    "2026-05-01_2026-05-31": {
+      "spend": 308.28,
+      "conversions": 8,
+      "cost_per_conv": 38.53,
+      "breakdown": [
+        {
+          "name": "Booking",
+          "conversions": 8
+        }
+      ],
+      "campaigns": [
+        {
+          "name": "MM | Search | Sports Chiro",
+          "spend": 308.28,
+          "conversions": 8,
+          "cost_per_conv": 38.53,
+          "adsets": []
+        }
+      ],
+      "prior": {
+        "conversions": 0,
+        "cost_per_conv": 0.0
+      }
+    }
+  },
+  "6443816223": {
+    "2026-06-09_2026-06-15": {
+      "spend": 406.7,
+      "conversions": 12,
+      "cost_per_conv": 33.89,
+      "breakdown": [
+        {
+          "name": "Booking",
+          "conversions": 12
+        }
+      ],
+      "campaigns": [
+        {
+          "name": "MM | Search | Osteo",
+          "spend": 406.7,
+          "conversions": 12,
+          "cost_per_conv": 33.89,
+          "adsets": []
+        }
+      ],
+      "prior": {
+        "conversions": 0,
+        "cost_per_conv": 0.0
+      }
+    },
+    "2026-05-01_2026-05-31": {
+      "spend": 1375.48,
+      "conversions": 57.99,
+      "cost_per_conv": 23.72,
+      "breakdown": [
+        {
+          "name": "Booking",
+          "conversions": 57.99
+        }
+      ],
+      "campaigns": [
+        {
+          "name": "MM | Search | Osteo",
+          "spend": 1375.48,
+          "conversions": 57.99,
+          "cost_per_conv": 23.72,
+          "adsets": []
+        }
+      ],
+      "prior": {
+        "conversions": 0,
+        "cost_per_conv": 0.0
+      }
+    }
+  }
+}
